@@ -110,3 +110,40 @@ No changes need to be made to APP_NAME/settings.py.
 
 
 The context_object_name indicated in the view can be used in the homepage.html to loop through the records.
+
+
+### Add Authentication
+
+    pipenv install django-allauth
+
+In settings.py add to INSTALLED_APPS:
+    'django.contrib.sites',
+    'allauth', 
+    'allauth.account',
+    'allauth.socialaccount',
+
+Add allauth settings to the bottom of the file:
+
+    SITE_ID = 1
+    LOGIN_URL = '/login'
+    LOGIN_REDIRECT_URL = '/'
+    ACCOUNT_AUTHENTICATION_REQUIRED = 'email'
+    ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_EMAIL_VERIFICATION = "optional"
+    ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+    ACCOUNT_LOGOUT_ON_GET = True
+    ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+    ACCOUNT_LOGOUT_REDIRECT = '/'
+    ACCOUNT_PRESERVE_USERNAME_CASING = False
+    ACCOUNT_SESSION_REMEMBER = True
+    ACCOUNT_SIGNUP_PASSWORD_TWICE = True
+    ACCOUNT_USERNAME_MIN_LENGTH = 2
+    AUTHENTICATION_BACKENDS = (
+        "django.contrib.auth.backends.ModelBackend",
+        "allauth.account.auth_backends.AuthenticationBackend")
+
+Include in PROJECT_NAME/urls.py:
+
+    path('', include('allauth.urls')),
+
