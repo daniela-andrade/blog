@@ -33,5 +33,80 @@ In APP_NAME/models.py create a new Model class:
 
     class MODEL_NAME(models.Model):
         text = models.CharField(max_lenght=140)
+        ...
+
+Then, run makemigrations to create the db update script.
+Run migrate to execute the update.
+Register the model in the APP_NAME/admin.py
+
+    from .models import MODEL_NAME
+
+    class MODEL_NAMEAdmin(admin.ModelAdmin):
+        pass
+
+Then, in the same file, register the admin class and connect 
+it to the model class
+
+    admin.site.register(MODEL_NAME, MODEL_NAMEAdmin)
+
+Add a __str__(self) method to the Model class for a better
+string representation of the object in the admin panel
+
+    def __str__(self):
+        return some_text
+
+# Adding a view (class based) to list our model objects
+
+In APP_NAME/VIEWS.py create a new View class:
+
+    from django.views.generic import ListView
+    from .models import MODEL_NAME
+
+    class HomePage(ListView):
+        http_method_names = ["get"]
+        template_name = "homepage.html"
+        model = MODEL_NAME
+        context_object_name = MODEL_NAME_PLURAL
+        queryset = MODEL_NAME.objects.all().order_by('-id')[0:30]
+
+Create a urls.py in APP_NAME/
+Add a new urlpattern:
+
+    from django.urls import path
+    from . import views
+
+    # used for namespacing
+    app_name = APP_NAME
+
+    urlpatterns = [path("", views.HomePage.as_view(), name="index.html")]
+
+Include the new urlpatterns in PROJECT_NAME/urls.py
+
+    from django.contrib import admin
+    from django.urls import path
+    from django.conf.urls import include
+    from APP_NAME import urls as APP_NAME_urls
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path("", include(APP_NAME_urls, namespace="APP_NAME"))
+    ]
+
+Set a template location for the "homepage.html" created in the view
+in the project's template settings in PROJECT_NAME/settings.py:
+
+    PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    ...
+    'DIRS': [os.path.join(PROJECT_DIR, 'APP_NAME/templates')]
+
+Add a homepage.html file to APP_NAME/templates.
+
+It is also possible to add the file to the PROJECT_NAME/templates/PROJECT_NAME.
+In this case, the template_name property in the HomePage view should be set to:
+    homepage_name =  "APP_NAME/homepage.html"
+
+In this case, the APP_NAME is the namespace.
+No changes need to be made to APP_NAME/settings.py.
 
 
+The context_object_name indicated in the view can be used in the homepage.html to loop through the records.
