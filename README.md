@@ -1,34 +1,34 @@
 # Test project for learning Django
 
-# Create project directory
-`mkdir PROJECT_ROOT_NAME`
-`cd PROJECT_ROOT_NAME`
+### Create project directory
+    mkdir PROJECT_ROOT_NAME
+    cd PROJECT_ROOT_NAME
 
-# Create virtual env for dependencies, including Django
-`pipenv install Django`
+### Create virtual env for dependencies, including Django
+    pipenv install Django
 
-# Enter virtual env
-`pipenv shell`
+### Enter virtual env
+    pipenv shell
 
-# Create new project in the current directory
-`django-admin startproject PROJECT_NAME .`
+### Create new project in the current directory
+    django-admin startproject PROJECT_NAME .
 
-# Create db migration script for the initial db structure and run it
-`python manage.py makemigrations`
-`python mange.py migrate`
+### Create db migration script for the initial db structure and run it
+    python manage.py makemigrations
+    python mange.py migrate
 
-# Create superuser for authentication/admin panel
-`python manage.py createsuperuser`
+### Create superuser for authentication/admin panel
+    python manage.py createsuperuser
 
-# Start server
-`python manage.py runserver 0.0.0.0:0000`
+### Start server
+    python manage.py runserver 0.0.0.0:0000
 
-# Create app
-`python manage.py startapp APP_NAME`
-# Add APP_NAME to INSTALLED_APPS in the PROJECT_NAME/settings
+### Create app
+    python manage.py startapp APP_NAME
+    
+    Add APP_NAME to INSTALLED_APPS in the PROJECT_NAME/settings
 
-
-# Create a Model
+### Create a Model
 In APP_NAME/models.py create a new Model class:
 
     class MODEL_NAME(models.Model):
@@ -49,13 +49,13 @@ it to the model class
 
     admin.site.register(MODEL_NAME, MODEL_NAMEAdmin)
 
-Add a __str__(self) method to the Model class for a better
+Add a `__str__(self)` method to the Model class for a better
 string representation of the object in the admin panel
 
     def __str__(self):
         return some_text
 
-# Adding a view (class based) to list our model objects
+### Adding a view (class based) to list our model objects
 
 In APP_NAME/VIEWS.py create a new View class:
 
