@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Post(models.Model):
@@ -8,3 +10,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text
+
+
+@receiver(post_save, sender=Post)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        print('Testing signals, post created!')
