@@ -117,7 +117,6 @@ The context_object_name indicated in the view can be used in the homepage.html t
     pipenv install django-allauth
 
 In settings.py add to INSTALLED_APPS:
-    'django.contrib.sites',
     'allauth', 
     'allauth.account',
     'allauth.socialaccount',
@@ -147,3 +146,6 @@ Include in PROJECT_NAME/urls.py:
 
     path('', include('allauth.urls')),
 
+Links to login and logout can be used like this:
+    <a href="{% url 'account_login' %}">Login</a>
+    <a href="{% url 'account_logout' %}">Logout</a>
